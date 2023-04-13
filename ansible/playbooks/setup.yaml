@@ -1,0 +1,82 @@
+---
+- name: Basic system setup
+  hosts: all
+  become: true
+  vars:
+    ssh_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDsDKI7Fx2l+E2LjyFcGOEVY+yrBSVDjMREf6d383n9lpH5b7v/R8i/Kp3zIUNjOpQlS/Szw4DfjhxhgZHiCcGtoO6UOxcyb3txHFIYASKkaRJlVNjk4YnO03l0gGrvZ6ChYHxQjHxbiQcq46tD1xaa9MusBEvloF42W8YLN5pj3v4QH9rQJGNLD5RxYrkOw90K06lXYcaU5sSBSrbpSfOOo4slX3Wp+YKcXY657527dSKReCsl5RYMOTZHJ+VRgcPdJPw+eaY6uTnciY/eT7JC20z0vE5EcoPpRgdmU7tvVFfbbIpOlrD86koFNy1f6ss+N17Tb+eCe6sRLJaScITcaiFRHj+b4cYj7Ajn8OmDmCKV3vHaqgKllBicezN+Ippu3MZswsQHFgLWARFryWJxFZCvcOlY+Ji18gjbUOcjQkBfPRc/lE9Bwzow1gMu/LXvJfIN5lu9nH8PdIVj58nQ5dqjyv0E+G8Wr/5d2/zjIKl6ull9st9iR8tV6IyZ8xq7G242ZKPSrfEMjxhcx89d0SZ3OwjImNcF19CkjI50AiWNgpck8gjGaXk63w6GBxWlMIb9J2YyQG+yPBzkfwwT8G0pWnBznwByQHIDtePWCW+Nf/SmC48CzD4ow0v0EcIe8Pxfsn7jVQcoD3UCyjgsLFS6F6gxWGSznJk3r4nsHw==
+
+  tasks:
+  - name: Use proxmox no-subscription repo
+    copy:
+      content: 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription'
+      dest: /etc/apt/sources.list.d/pve-no-subscription.list
+      mode: 0440
+
+  - name: Remove proxmox enterprise repo
+    lineinfile:
+      state: absent
+      dest: /etc/apt/sources.list.d/pve-enterprise.list
+      line: deb http://download.proxmox.com/debian/pve bullseye pve-enterprise
+
+  - name: Install packages
+    apt:
+      name:
+      - sudo
+      - vim-nox
+      state: present
+
+  - name: Ensure ansible user exists
+    user:
+      state: present
+      name: ansible
+      comment: Ansible automation user
+
+  - name: Add ssh key for ansible user
+    authorized_key:
+      state: present
+      user: ansible
+      key: "{{ ssh_public_key }}"
+
+  - name: Allow sudo without password for ansible user
+    copy:
+      content: 'ansible ALL=(ALL:ALL) NOPASSWD:ALL'
+      dest: /etc/sudoers.d/ansible
+      mode: 0440
+
+  - name: Disable SSH root login
+    lineinfile: 
+      state: present
+      dest: /etc/ssh/sshd_config
+      regexp: "^PermitRootLogin" 
+      line: PermitRootLogin no
+    notify:
+        - restart sshd
+
+
+  - name: Disable SSH password login
+    lineinfile: 
+      state: present
+      dest: /etc/ssh/sshd_config 
+      regexp: "^PasswordAuthentication" 
+      line: PasswordAuthentication no
+    notify:
+      - restart sshd
+  
+  - name: Ensure danish locale exists
+    community.general.locale_gen:
+      name: da_DK.UTF-8
+      state: present
+
+  - name: Disable speaker kernel module
+    community.general.kernel_blacklist:
+      name: pcspkr
+
+  - name: Remove speaker module from kernel (to not require reboot)
+    command: modprobe -r pcspkr
+    changed_when: false
+
+  handlers:
+  - name: restart sshd
+    service:
+      name: ssh
+      state: restarted
