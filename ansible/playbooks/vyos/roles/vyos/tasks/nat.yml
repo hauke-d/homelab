@@ -1,0 +1,7 @@
+---
+- name: Set up source NAT for outbound traffic
+  vyos_config:
+    lines:
+    - set nat source rule 10 outbound-interface {{ wan.interface }}
+    - set nat source rule 10 source address {{ local_range }}
+    - set nat source rule 10 translation address masquerade

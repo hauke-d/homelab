@@ -1,0 +1,30 @@
+local_range: "192.168.32.0/19"
+
+wan:
+  interface: eth0
+
+home:
+  interface: eth1
+  subnet: "192.168.32.0"
+  cidr: "/24"
+  address: "192.168.32.1"
+  dhcp:
+    start: "192.168.32.2"
+    end: "192.168.32.199"
+
+lab:
+  interface: eth2
+  subnet: "192.168.33.0"
+  cidr: "/24"
+  address: "192.168.33.1"
+  dhcp:
+    start: "192.168.33.2"
+    end: "192.168.33.199"
+
+mgmt:
+  interface: eth4
+  subnet: "192.168.64.0"
+  cidr: "/16"
+  address: "192.168.64.1"
+
+

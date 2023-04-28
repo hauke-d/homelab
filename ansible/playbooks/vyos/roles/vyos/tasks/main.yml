@@ -1,0 +1,13 @@
+---
+- name: Configure users & auth
+  import_tasks: users.yml
+- name: Configure interfaces
+  import_tasks: interfaces.yml
+- name: Configure NAT
+  import_tasks: nat.yml
+- name: Configure DNS
+  import_tasks: dns.yml
+- name: Configure firewall
+  import_tasks: firewall.yml
+- name: Confiure DHCP
+  import_tasks: dhcp.yml

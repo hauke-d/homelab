@@ -1,0 +1,12 @@
+---
+- name: Set up DNS
+  vyos_config:
+    lines:
+    - set service dns forwarding allow-from {{ local_range }}
+    - set service dns forwarding cache-size 10000
+    - set service dns forwarding listen-address {{ home.address }}
+    - set service dns forwarding listen-address {{ lab.address }}
+    - set service dns forwarding listen-address {{ mgmt.address }}
+    - set service dns forwarding name-server 1.0.0.1
+    - set service dns forwarding name-server 1.1.1.1
+    - set system name-server {{ mgmt.address }}

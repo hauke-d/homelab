@@ -1,3 +1,16 @@
 [proxmox_hosts]
-192.168.0.200
-192.168.0.201
+192.168.0.200 name=pm0
+192.168.0.201 name=pm1
+192.168.0.202 name=pm2
+
+[vyos]
+192.168.64.1
+
+[vyos:vars]
+eth0_mac=90:1b:0e:cb:f2:5d
+eth1_mac=90:e2:ba:79:76:18
+eth2_mac=90:e2:ba:79:76:19
+eth3_mac=90:e2:ba:79:76:1a
+eth4_mac=90:e2:ba:79:76:1b
+ansible_connection=network_cli
+ansible_network_os=vyos
