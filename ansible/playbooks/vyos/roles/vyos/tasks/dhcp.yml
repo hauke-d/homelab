@@ -8,4 +8,4 @@
 
     - set service dhcp-server shared-network-name LAB subnet {{lab.subnet}}{{lab.cidr}} range 0 start {{lab.dhcp.start}}
     - set service dhcp-server shared-network-name LAB subnet {{lab.subnet}}{{lab.cidr}} range 0 stop {{lab.dhcp.end}}
-    - set service dhcp-server shared-network-name HOME name-server {{lab.address}}
+    - set service dhcp-server shared-network-name LAB name-server {{lab.address}}

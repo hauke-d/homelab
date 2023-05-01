@@ -11,7 +11,7 @@
       - name: "{{ mgmt.interface }}"
         description: "MGMT"
       - name: lo
-    state: replaced
+    state: overridden
 
 - name: Interfaces - L3 config
   vyos_l3_interfaces:
@@ -28,5 +28,5 @@
       - name: "{{ mgmt.interface }}"
         ipv4:
           - address: "{{ mgmt.address }}{{ mgmt.cidr }}"
-    state: replaced
+    state: overridden
 
