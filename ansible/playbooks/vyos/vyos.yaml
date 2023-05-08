@@ -1,6 +1,6 @@
 ---
 - name: Router configuration
-  hosts: vyos
+  hosts: vyos_hosts
   vars:
     ssh_public_key: AAAAC3NzaC1lZDI1NTE5AAAAIJhhadIjv/5D2osI8P38XcEBlKQczcgffw3dB1Vbt8Vm
   roles:

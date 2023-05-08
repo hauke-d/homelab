@@ -1,30 +1,33 @@
-local_range: "192.168.32.0/19"
+local_range: "10.8.0.0/16"
 
 wan:
+  subnet: "192.168.0.0"
+  address: "192.168.0.254"
+  cidr: "/24"
+  gateway: "192.168.0.1"
   interface: eth0
 
-home:
-  interface: eth1
-  subnet: "192.168.32.0"
-  cidr: "/24"
-  address: "192.168.32.1"
-  dhcp:
-    start: "192.168.32.2"
-    end: "192.168.32.199"
-
 lab:
-  interface: eth2
-  subnet: "192.168.33.0"
-  cidr: "/24"
-  address: "192.168.33.1"
+  interface: eth1
+  subnet: "10.8.0.0"
+  cidr: "/21"
+  address: "10.8.0.1"
   dhcp:
-    start: "192.168.33.2"
-    end: "192.168.33.199"
-
-mgmt:
-  interface: eth4
-  subnet: "192.168.64.0"
-  cidr: "/16"
-  address: "192.168.64.1"
-
-
+    start: "10.8.0.20"
+    end: "10.8.0.200"
+  vlans:
+    hosts:
+      id: 8
+      subnet: "10.8.8.0"
+      cidr: "/21"
+      address: "10.8.8.1"
+    shared:
+      id: 16
+      subnet: "10.8.16.0"
+      cidr: "/21"
+      address: "10.8.16.1"
+    kubernetes:
+      id: 24
+      subnet: "10.8.24.0"
+      cidr: "/21"
+      address: "10.8.24.1"

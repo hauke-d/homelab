@@ -4,12 +4,15 @@
     config:
       - name: "{{ wan.interface }}"
         description: "WAN"
-      - name: "{{ home.interface }}"
-        description: "HOME"
       - name: "{{ lab.interface }}"
         description: "LAB"
-      - name: "{{ mgmt.interface }}"
-        description: "MGMT"
+        vifs:
+        - vlan_id: "{{ lab.vlans.hosts.id }}"
+          description: "HOSTS"
+        - vlan_id: "{{ lab.vlans.shared.id }}"
+          description: "SHARED"
+        - vlan_id: "{{ lab.vlans.kubernetes.id }}"
+          description: "KUBERNETES"
       - name: lo
     state: overridden
 
@@ -18,15 +21,23 @@
     config:
       - name: "{{ wan.interface }}"
         ipv4:
-          - address: dhcp
-      - name: "{{ home.interface }}"
-        ipv4:
-          - address: "{{ home.address }}{{ home.cidr }}"
+          - address: "{{ wan.address }}{{ wan.cidr }}"
       - name: "{{ lab.interface }}"
         ipv4:
           - address: "{{ lab.address }}{{ lab.cidr }}"
-      - name: "{{ mgmt.interface }}"
-        ipv4:
-          - address: "{{ mgmt.address }}{{ mgmt.cidr }}"
+        vifs:
+        - vlan_id: "{{ lab.vlans.hosts.id }}"
+          ipv4:
+            - address: "{{ lab.vlans.hosts.address }}{{ lab.vlans.hosts.cidr }}"
+        - vlan_id: "{{ lab.vlans.shared.id }}"
+          ipv4:
+            - address: "{{ lab.vlans.shared.address }}{{ lab.vlans.shared.cidr }}"
+        - vlan_id: "{{ lab.vlans.kubernetes.id }}"
+          ipv4:
+            - address: "{{ lab.vlans.kubernetes.address }}{{ lab.vlans.kubernetes.cidr }}"
     state: overridden
 
+- name: WAN Default gateway
+  vyos_config:
+    lines:
+    - set protocols static route 0.0.0.0/0 next-hop {{wan.gateway}}

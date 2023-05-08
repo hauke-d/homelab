@@ -2,6 +2,7 @@
 - name: Set up ansible user and disable SSH password authentication
   vyos_config:
     lines:
+    - set service ssh disable-host-validation
     - set service ssh disable-password-authentication
     - set system login user ansible authentication public-keys ansible key '{{ ssh_public_key }}'
     - set system login user ansible authentication public-keys ansible type ssh-ed25519

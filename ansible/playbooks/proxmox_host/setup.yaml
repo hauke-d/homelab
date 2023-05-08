@@ -3,9 +3,22 @@
   hosts: proxmox_hosts
   become: true
   vars:
-    ssh_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDsDKI7Fx2l+E2LjyFcGOEVY+yrBSVDjMREf6d383n9lpH5b7v/R8i/Kp3zIUNjOpQlS/Szw4DfjhxhgZHiCcGtoO6UOxcyb3txHFIYASKkaRJlVNjk4YnO03l0gGrvZ6ChYHxQjHxbiQcq46tD1xaa9MusBEvloF42W8YLN5pj3v4QH9rQJGNLD5RxYrkOw90K06lXYcaU5sSBSrbpSfOOo4slX3Wp+YKcXY657527dSKReCsl5RYMOTZHJ+VRgcPdJPw+eaY6uTnciY/eT7JC20z0vE5EcoPpRgdmU7tvVFfbbIpOlrD86koFNy1f6ss+N17Tb+eCe6sRLJaScITcaiFRHj+b4cYj7Ajn8OmDmCKV3vHaqgKllBicezN+Ippu3MZswsQHFgLWARFryWJxFZCvcOlY+Ji18gjbUOcjQkBfPRc/lE9Bwzow1gMu/LXvJfIN5lu9nH8PdIVj58nQ5dqjyv0E+G8Wr/5d2/zjIKl6ull9st9iR8tV6IyZ8xq7G242ZKPSrfEMjxhcx89d0SZ3OwjImNcF19CkjI50AiWNgpck8gjGaXk63w6GBxWlMIb9J2YyQG+yPBzkfwwT8G0pWnBznwByQHIDtePWCW+Nf/SmC48CzD4ow0v0EcIe8Pxfsn7jVQcoD3UCyjgsLFS6F6gxWGSznJk3r4nsHw==
+    ssh_public_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJhhadIjv/5D2osI8P38XcEBlKQczcgffw3dB1Vbt8Vm
 
   tasks:
+  - name: Ensure ansible user exists
+    user:
+      state: present
+      name: ansible
+      shell: /bin/bash
+      comment: Ansible automation user
+
+  - name: Add ssh key for ansible user
+    authorized_key:
+      state: present
+      user: ansible
+      key: "{{ ssh_public_key }}"
+
   - name: Use proxmox no-subscription repo
     copy:
       content: 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription'
@@ -24,19 +37,6 @@
       - vim-nox
       update_cache: true
       state: present
-
-  - name: Ensure ansible user exists
-    user:
-      state: present
-      name: ansible
-      shell: /bin/bash
-      comment: Ansible automation user
-
-  - name: Add ssh key for ansible user
-    authorized_key:
-      state: present
-      user: ansible
-      key: "{{ ssh_public_key }}"
 
   - name: Allow sudo without password for ansible user
     copy:

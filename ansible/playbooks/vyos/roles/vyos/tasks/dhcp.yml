@@ -2,10 +2,7 @@
 - name: Set up DHCP server
   vyos_config:
     lines:
-    - set service dhcp-server shared-network-name HOME subnet {{home.subnet}}{{home.cidr}} range 0 start {{home.dhcp.start}}
-    - set service dhcp-server shared-network-name HOME subnet {{home.subnet}}{{home.cidr}} range 0 stop {{home.dhcp.end}}
-    - set service dhcp-server shared-network-name HOME name-server {{home.address}}
-
+    - set service dhcp-server shared-network-name LAB subnet {{lab.subnet}}{{lab.cidr}} default-router {{lab.address}}
     - set service dhcp-server shared-network-name LAB subnet {{lab.subnet}}{{lab.cidr}} range 0 start {{lab.dhcp.start}}
     - set service dhcp-server shared-network-name LAB subnet {{lab.subnet}}{{lab.cidr}} range 0 stop {{lab.dhcp.end}}
     - set service dhcp-server shared-network-name LAB name-server {{lab.address}}
