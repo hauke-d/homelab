@@ -14,5 +14,5 @@ ff02::3 ip6-allhosts
 
 # Cluster IPs
 {% for host in groups['proxmox_hosts'] %}
-{{ host }} {{ hostvars[host].name }}.local   {{ hostvars[host].name }}
+{{ hostvars[host].ip }} {{ host }}.local   {{ host }}
 {% endfor  %}

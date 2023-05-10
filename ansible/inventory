@@ -1,7 +1,7 @@
 [proxmox_hosts]
-pm0
-pm1
-pm2
+pm0 ip=10.8.0.10
+pm1 ip=10.8.0.11
+pm2 ip=10.8.0.12
 
 [vyos_hosts]
 vyos
