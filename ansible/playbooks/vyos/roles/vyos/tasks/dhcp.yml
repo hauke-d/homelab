@@ -6,3 +6,8 @@
     - set service dhcp-server shared-network-name LAB subnet {{lab.subnet}}{{lab.cidr}} range 0 start {{lab.dhcp.start}}
     - set service dhcp-server shared-network-name LAB subnet {{lab.subnet}}{{lab.cidr}} range 0 stop {{lab.dhcp.end}}
     - set service dhcp-server shared-network-name LAB name-server {{lab.address}}
+
+    - set service dhcp-server shared-network-name KUBE subnet {{lab.vlans.kubernetes.subnet}}{{lab.vlans.kubernetes.cidr}} default-router {{lab.vlans.kubernetes.address}}
+    - set service dhcp-server shared-network-name KUBE subnet {{lab.vlans.kubernetes.subnet}}{{lab.vlans.kubernetes.cidr}} range 0 start {{lab.vlans.kubernetes.dhcp.start}}
+    - set service dhcp-server shared-network-name KUBE subnet {{lab.vlans.kubernetes.subnet}}{{lab.vlans.kubernetes.cidr}} range 0 stop {{lab.vlans.kubernetes.dhcp.end}}
+    - set service dhcp-server shared-network-name KUBE name-server {{lab.vlans.kubernetes.address}}
