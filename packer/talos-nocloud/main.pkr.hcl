@@ -15,7 +15,7 @@ source "proxmox-iso" "talos" {
   proxmox_url              = "${var.proxmox_endpoint}/api2/json"
   username                 = var.proxmox_user
   password                 = var.proxmox_password
-  node                     = "pm1"
+  node                     = "pm2"
 
   # provisioned through terraform/packer-base
   iso_file = "local:iso/archlinux-2023.05.03-amd64.iso"
@@ -29,8 +29,8 @@ source "proxmox-iso" "talos" {
   disks {
     type              = "scsi"
     storage_pool      = "local"
-    format            = "raw"
-    disk_size         = "1500M"
+    format            = "qcow2"
+    disk_size         = "10G"
     cache_mode        = "writethrough"
   }
 
@@ -41,9 +41,6 @@ source "proxmox-iso" "talos" {
   ssh_username           = "root"
   ssh_password           = local.ssh_password
   ssh_timeout            = "5m"
-  ssh_bastion_username   = "ansible"
-  ssh_bastion_host       = "192.168.0.254"
-  ssh_bastion_agent_auth = true
 
   template_name        = "talos"
   template_description = "Talos system disk"

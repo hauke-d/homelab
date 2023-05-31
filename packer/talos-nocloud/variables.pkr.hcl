@@ -1,5 +1,5 @@
 variable "proxmox_endpoint" {
-  default = "https://localhost:8006"
+  default = "https://10.8.0.10:8006"
 }
 
 variable "proxmox_user" {
