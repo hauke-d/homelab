@@ -1,0 +1,16 @@
+cluster:
+  allowSchedulingOnControlPlanes: true
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: true
+  inlineManifests:
+  - name: cilium
+    contents: |
+      ${indent(6, cilium_yaml)}
+machine:
+  install:
+    disk: /dev/sda
+  network:
+    hostname: ${hostname}
