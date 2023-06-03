@@ -6,6 +6,7 @@ terraform {
       name = "cluster-infra"
     }
   }
+
   required_providers {
     proxmox = {
       source  = "bpg/proxmox"

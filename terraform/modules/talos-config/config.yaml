@@ -1,14 +1,14 @@
 cluster:
   allowSchedulingOnControlPlanes: true
   network:
+    podSubnets: 
+    - 10.244.0.0/16
+    serviceSubnets: 
+    - 10.96.0.0/16
     cni:
       name: none
   proxy:
     disabled: true
-  inlineManifests:
-  - name: cilium
-    contents: |
-      ${indent(6, cilium_yaml)}
 machine:
   install:
     disk: /dev/sda
