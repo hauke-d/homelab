@@ -3,7 +3,7 @@ resource "helm_release" "cilium" {
   namespace = "kube-system"
   repository = "https://helm.cilium.io/"
   chart = "cilium"
-  version = "1.13.2"
+  version = "1.14.0-snapshot.3"
 
   set {
     name = "ipam.mode"
@@ -56,6 +56,11 @@ resource "helm_release" "cilium" {
   }
 
   set {
+    name = "dnsPolicy"
+    value = "ClusterFirstWithHostNet"
+  }
+
+  set {
     name = "k8sServiceHost"
     value = var.cluster_endpoint
   }
@@ -66,6 +71,7 @@ resource "helm_release" "cilium" {
   }
 }
 
+# TODO: Adding this without cilium running will fail (needs CRDs applied by cilium-operator)
 resource "kubernetes_manifest" "bgp_policy" {
   manifest = {
     apiVersion = "cilium.io/v2alpha1"
@@ -102,6 +108,7 @@ resource "kubernetes_manifest" "bgp_policy" {
   }
 }
 
+# TODO: Adding this without cilium running will fail (needs CRDs applied by cilium-operator)
 resource "kubernetes_manifest" "loadbalancer_ip_pool" {
   manifest = {
     apiVersion = "cilium.io/v2alpha1"
@@ -124,15 +131,3 @@ resource "kubernetes_manifest" "loadbalancer_ip_pool" {
   }
 }
 
-/*
-apiVersion: cilium.io/v2alpha1
-kind: CiliumLoadBalancerIPPool
-metadata:
-  name: nginx-ingress
-spec:
-  cidrs:
-    - cidr: 172.198.1.0/30
-  disabled: false
-  serviceSelector:
-    matchLabels:
-      app.kubernetes.io/name: ingress-nginx*/

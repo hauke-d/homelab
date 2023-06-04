@@ -1,10 +1,11 @@
 cluster:
   allowSchedulingOnControlPlanes: true
   network:
+    dnsDomain: cluster.local
     podSubnets: 
-    - 10.244.0.0/16
+    - 10.244.0.0/12
     serviceSubnets: 
-    - 10.96.0.0/16
+    - 10.96.0.0/12
     cni:
       name: none
   proxy:
