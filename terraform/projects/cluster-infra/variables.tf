@@ -8,7 +8,7 @@ variable "proxmox_user" {
 
 variable "proxmox_password" {
   sensitive = true
-  type = string
+  type      = string
 }
 
 variable "cluster_name" {
@@ -30,15 +30,15 @@ variable "vlan_gateway" {
 variable "controlplane_nodes" {
   default = {
     "10.8.24.100" = {
-      host = "pm0"
+      host        = "pm0"
       template_id = 103
     },
-    "10.8.24.101" = { 
-      host = "pm1"
+    "10.8.24.101" = {
+      host        = "pm1"
       template_id = 101
     },
-    "10.8.24.102" = { 
-      host = "pm2"
+    "10.8.24.102" = {
+      host        = "pm2"
       template_id = 102
     },
   }

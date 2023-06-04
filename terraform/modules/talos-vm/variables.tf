@@ -11,12 +11,12 @@ variable "name" {
 }
 
 variable "cpu" {
-  type = number
+  type    = number
   default = 2
 }
 
 variable "memory" {
-  type = number
+  type    = number
   default = 2048
 }
 

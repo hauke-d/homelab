@@ -8,5 +8,5 @@ variable "proxmox_user" {
 
 variable "proxmox_password" {
   sensitive = true
-  type = string
+  type      = string
 }

@@ -24,7 +24,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
   node                        = each.value
   config_patches = [
     templatefile("${path.module}/config.yaml", {
-      hostname     = replace(each.value, ".", "-")
+      hostname = replace(each.value, ".", "-")
     }),
   ]
 }
@@ -33,7 +33,7 @@ resource "talos_machine_bootstrap" "this" {
   depends_on = [talos_machine_configuration_apply.controlplane]
 
   client_configuration = talos_machine_secrets.this.client_configuration
-  node                 =  local.cluster_endpoint_ip
+  node                 = local.cluster_endpoint_ip
 }
 
 data "talos_cluster_kubeconfig" "this" {
@@ -41,5 +41,5 @@ data "talos_cluster_kubeconfig" "this" {
   node                 = local.cluster_endpoint_ip
   wait                 = true
 
-  depends_on = [ talos_machine_bootstrap.this ]
+  depends_on = [talos_machine_bootstrap.this]
 }

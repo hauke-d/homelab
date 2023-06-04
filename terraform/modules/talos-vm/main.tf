@@ -1,6 +1,6 @@
 resource "proxmox_virtual_environment_vm" "this" {
-  name        = var.name
-  node_name   = var.proxmox_host
+  name      = var.name
+  node_name = var.proxmox_host
 
   clone {
     vm_id = var.template_vm_id
@@ -13,7 +13,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   initialization {
     datastore_id = "local"
     dns {
-        server = var.ipv4_gateway
+      server = var.ipv4_gateway
     }
     ip_config {
       ipv4 {
@@ -24,7 +24,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   network_device {
-    bridge = "vmbr0"
+    bridge  = "vmbr0"
     vlan_id = var.vlan_id
   }
 
@@ -34,7 +34,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   cpu {
     cores = var.cpu
-    type = "host"
+    type  = "host"
   }
 
   memory {
