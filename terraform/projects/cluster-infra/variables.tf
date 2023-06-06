@@ -27,17 +27,21 @@ variable "vlan_gateway" {
   default = "10.8.24.1"
 }
 
+variable "controlplane_virtual_ip" {
+  default = "10.8.24.100"  
+}
+
 variable "controlplane_nodes" {
   default = {
-    "10.8.24.100" = {
+    "10.8.24.101" = {
       host        = "pm0"
       template_id = 103
     },
-    "10.8.24.101" = {
+    "10.8.24.102" = {
       host        = "pm1"
       template_id = 101
     },
-    "10.8.24.102" = {
+    "10.8.24.103" = {
       host        = "pm2"
       template_id = 102
     },

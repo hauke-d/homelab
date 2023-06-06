@@ -1,11 +1,3 @@
-variable "cluster_endpoint" {
-  default = "10.8.24.100"
-}
-
-variable "vyos_host" {
-  default = "10.8.24.1"
-}
-
 variable "vyos_api_key" {}
 
 variable "bgp_vyos_asn" {

@@ -18,6 +18,7 @@ module "talos_config" {
   source           = "../../modules/talos-config"
   cluster_name     = var.cluster_name
   controlplane_ips = local.controlplane_ips
+  controlplane_virtual_ip = var.controlplane_virtual_ip
   depends_on       = [module.controlplane]
 }
 

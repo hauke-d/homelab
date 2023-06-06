@@ -11,3 +11,11 @@ output "kube_config" {
 output "controlplane_nodes" {
   value = keys(var.controlplane_nodes)
 }
+
+output "controlplane_address" {
+  value = var.controlplane_virtual_ip
+}
+
+output "controlplane_gateway" {
+  value = var.vlan_gateway
+}

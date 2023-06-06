@@ -25,6 +25,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
   config_patches = [
     templatefile("${path.module}/config.yaml", {
       hostname = replace(each.value, ".", "-")
+      controlplane_virtual_ip = var.controlplane_virtual_ip
     }),
   ]
 }
@@ -38,7 +39,7 @@ resource "talos_machine_bootstrap" "this" {
 
 data "talos_cluster_kubeconfig" "this" {
   client_configuration = talos_machine_secrets.this.client_configuration
-  node                 = local.cluster_endpoint_ip
+  node                 = var.controlplane_virtual_ip
   wait                 = true
 
   depends_on = [talos_machine_bootstrap.this]

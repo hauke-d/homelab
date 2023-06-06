@@ -10,8 +10,14 @@ cluster:
       name: none
   proxy:
     disabled: true
+  controlPlane:
+    endpoint: https://${controlplane_virtual_ip}:6443
 machine:
   install:
     disk: /dev/sda
   network:
     hostname: ${hostname}
+    interfaces:
+    - interface: eth0
+      vip:
+        ip: ${controlplane_virtual_ip}

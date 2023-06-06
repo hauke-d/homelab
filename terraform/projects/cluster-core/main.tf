@@ -62,7 +62,7 @@ resource "helm_release" "cilium" {
 
   set {
     name  = "k8sServiceHost"
-    value = var.cluster_endpoint
+    value = data.tfe_outputs.cluster_infra.values.controlplane_address
   }
 
   set {
@@ -71,9 +71,9 @@ resource "helm_release" "cilium" {
   }
 }
 
-# TODO: Adding this without cilium running will fail (needs CRDs applied by cilium-operator)
-resource "kubernetes_manifest" "bgp_policy" {
-  manifest = {
+resource "kubectl_manifest" "bgp_policy" {
+  server_side_apply = true
+  yaml_body = yamlencode({
     apiVersion = "cilium.io/v2alpha1"
     kind       = "CiliumBGPPeeringPolicy"
     metadata = {
@@ -91,7 +91,7 @@ resource "kubernetes_manifest" "bgp_policy" {
           neighbors = [
             {
               peerASN     = var.bgp_vyos_asn
-              peerAddress = "${var.vyos_host}/32"
+              peerAddress = "${data.tfe_outputs.cluster_infra.values.controlplane_gateway}/32"
             }
           ]
           serviceSelector = {
@@ -102,15 +102,13 @@ resource "kubernetes_manifest" "bgp_policy" {
         }
       ]
     }
-  }
-  field_manager {
-    force_conflicts = true
-  }
+  })
+  depends_on = [ helm_release.cilium ]
 }
 
-# TODO: Adding this without cilium running will fail (needs CRDs applied by cilium-operator)
-resource "kubernetes_manifest" "loadbalancer_ip_pool" {
-  manifest = {
+resource "kubectl_manifest" "loadbalancer_ip_pool" {
+  server_side_apply = true
+  yaml_body = yamlencode({
     apiVersion = "cilium.io/v2alpha1"
     kind       = "CiliumLoadBalancerIPPool"
     metadata = {
@@ -118,17 +116,15 @@ resource "kubernetes_manifest" "loadbalancer_ip_pool" {
     }
     spec = {
       cidrs    = [{ cidr = var.load_balancer_address_pool }]
-      disabled = "false"
+      disabled = false
       serviceSelector = {
         matchLabels = {
           "cilium.io/ingress" = "true"
         }
       }
     }
-  }
-  field_manager {
-    force_conflicts = true
-  }
+  })
+  depends_on = [ helm_release.cilium ]
 }
 
 resource "vyos_config" "bgp_network" {

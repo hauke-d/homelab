@@ -4,7 +4,7 @@ locals {
   user       = local.kubeconfig.users[0].user
 }
 
-provider "kubernetes" {
+provider "kubectl" {
   host                   = local.cluster.server
   cluster_ca_certificate = base64decode(local.cluster.certificate-authority-data)
   client_certificate     = base64decode(local.user.client-certificate-data)
@@ -21,6 +21,6 @@ provider "helm" {
 }
 
 provider "vyos" {
-  url = "https://${var.vyos_host}"
+  url = "https://${data.tfe_outputs.cluster_infra.values.controlplane_gateway}"
   key = var.vyos_api_key
 }
