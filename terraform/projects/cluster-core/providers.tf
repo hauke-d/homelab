@@ -19,3 +19,8 @@ provider "helm" {
     client_key             = base64decode(local.user.client-key-data)
   }
 }
+
+provider "vyos" {
+  url = "https://${var.vyos_host}"
+  key = var.vyos_api_key
+}

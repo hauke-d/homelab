@@ -15,5 +15,9 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2"
     }
+    vyos = {
+      source  = "foltik/vyos"
+      version = "~> 0"
+    }
   }
 }

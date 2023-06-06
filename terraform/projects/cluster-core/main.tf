@@ -87,11 +87,11 @@ resource "kubernetes_manifest" "bgp_policy" {
       }
       virtualRouters = [
         {
-          localASN = 64512
+          localASN = var.bgp_cluster_asn
           neighbors = [
             {
-              peerASN     = 64512
-              peerAddress = "10.8.24.1/32"
+              peerASN     = var.bgp_vyos_asn
+              peerAddress = "${var.vyos_host}/32"
             }
           ]
           serviceSelector = {
@@ -117,7 +117,7 @@ resource "kubernetes_manifest" "loadbalancer_ip_pool" {
       name = "ingress"
     }
     spec = {
-      cidrs    = [{ cidr = "10.8.25.0/24" }]
+      cidrs    = [{ cidr = var.load_balancer_address_pool }]
       disabled = "false"
       serviceSelector = {
         matchLabels = {
@@ -131,3 +131,22 @@ resource "kubernetes_manifest" "loadbalancer_ip_pool" {
   }
 }
 
+resource "vyos_config" "bgp_network" {
+  key   = "protocols bgp address-family ipv4-unicast network 10.8.0.0/16"
+  value = ""
+}
+
+resource "vyos_config" "bgp_system_asn" {
+  key   = "protocols bgp system-as"
+  value = var.bgp_vyos_asn
+}
+
+resource "vyos_config_block_tree" "bgp_neigbors" {
+  for_each = toset(nonsensitive(data.tfe_outputs.cluster_infra.values.controlplane_nodes))
+  path     = "protocols bgp neighbor ${each.value}"
+  configs = {
+    "remote-as"                                      = var.bgp_cluster_asn
+    "address-family ipv4-unicast nexthop-self force" = ""
+    "description"                                    = "k8s ingress"
+  }
+}
