@@ -23,12 +23,21 @@ variable "vlan_cidr" {
   default = "/21"
 }
 
-variable "vlan_gateway" {
+variable "vyos_gateway" {
   default = "10.8.24.1"
 }
 
+variable "vyos_api_key" {
+  sensitive = true
+  type      = string
+}
+
 variable "controlplane_virtual_ip" {
-  default = "10.8.24.100"  
+  default = "10.8.24.100"
+}
+
+variable "load_balancer_address_pool" {
+  default = "10.8.25.0/24"
 }
 
 variable "controlplane_nodes" {

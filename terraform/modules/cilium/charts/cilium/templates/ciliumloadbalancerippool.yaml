@@ -1,0 +1,11 @@
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: ingress
+spec:
+  cidrs:
+  - cidr: {{ .Values.loadBalancerAddressPool}}
+  disabled: false
+  serviceSelector:
+    matchLabels:
+      cilium.io/ingress: "true"

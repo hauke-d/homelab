@@ -1,12 +1,4 @@
 terraform {
-  cloud {
-    organization = "hauke"
-
-    workspaces {
-      name = "cluster-core"
-    }
-  }
-
   required_providers {
     kubectl = {
       source = "gavinbunney/kubectl"

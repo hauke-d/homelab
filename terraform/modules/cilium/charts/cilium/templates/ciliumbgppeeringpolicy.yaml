@@ -1,0 +1,18 @@
+
+
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: vyos
+spec:
+  nodeSelector:
+    matchLabels:
+      {{ toYaml .Values.bgpNodeLabels | indent 6 }}
+  virtualRouters:
+  - localASN: {{ .Values.bgpClusterAsn }}
+    neighbors:
+    - peerASN: {{ .Values.bgpPeerAsn }}
+      peerAddress: "{{ .Values.bgpPeerAddress }}/32"
+    serviceSelector:
+      matchLabels:
+        cilium.io/ingress: "true"
