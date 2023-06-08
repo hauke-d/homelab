@@ -15,7 +15,6 @@ source "proxmox-iso" "talos" {
   proxmox_url              = "${var.proxmox_endpoint}/api2/json"
   username                 = var.proxmox_user
   password                 = var.proxmox_password
-  node                     = "pm2"
 
   # provisioned through terraform/packer-base
   iso_file = "local:iso/archlinux-2023.05.03-amd64.iso"
@@ -34,7 +33,7 @@ source "proxmox-iso" "talos" {
     cache_mode        = "writethrough"
   }
 
-  memory       = 2048
+  memory       = 1024
   cores        = 2
   qemu_agent   = true
 
@@ -42,7 +41,7 @@ source "proxmox-iso" "talos" {
   ssh_password           = local.ssh_password
   ssh_timeout            = "5m"
 
-  template_name        = "talos"
+  template_name        = "talos-${var.talos_version}"
   template_description = "Talos system disk"
 
   boot_wait = "10s"
@@ -56,11 +55,19 @@ source "proxmox-iso" "talos" {
 
 build {
   name    = "release"
-  sources = ["source.proxmox-iso.talos"]
+
+  dynamic "source" {
+    for_each = var.proxmox_node_templates
+    labels = ["proxmox-iso.talos"]
+    content {
+      node = source.key
+      vm_id = source.value.vm_id
+    }
+  }
 
   provisioner "shell" {
     inline = [
-      "curl -L https://github.com/siderolabs/talos/releases/download/v1.4.4/nocloud-amd64.raw.xz -o /tmp/talos.raw.xz",
+      "curl -L https://github.com/siderolabs/talos/releases/download/${var.talos_version}/nocloud-amd64.raw.xz -o /tmp/talos.raw.xz",
       "xz -d -c /tmp/talos.raw.xz | dd of=/dev/sda && sync",
     ]
   }
