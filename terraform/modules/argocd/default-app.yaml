@@ -6,9 +6,9 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  syncOptions:
+  syncPolicy:
     automated: {}
-  project: cluster-core
+  project: default
   source:
     path: kubernetes/bootstrap
     repoURL: git@github.com:hauke-d/homelab.git

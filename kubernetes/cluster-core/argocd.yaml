@@ -9,10 +9,16 @@ spec:
   syncPolicy:
     automated: {}
   project: cluster-core
-  source:
-    path: kubernetes/cluster-core
-    repoURL: git@github.com:hauke-d/homelab.git
+  sources:
+  - repoURL: git@github.com:hauke-d/homelab
     targetRevision: main
+    ref: values
+  - repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: 5.36.0
+    helm:
+      valueFiles:
+      - $values/kubernetes/cluster-core/helm-values/argocd.yaml
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
