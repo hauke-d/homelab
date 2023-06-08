@@ -8,6 +8,17 @@ variable "load_balancer_address_pool" {
   type = string
 }
 
+variable "cilium_version" {
+  type = string
+}
+
+variable "pre_install_crds" {
+  default = [
+    "v2alpha1/ciliumloadbalancerippools",
+    "v2alpha1/ciliumbgppeeringpolicies"
+  ]
+}
+
 variable "bgp_gateway_address" {
   description = "The IP address of the gateway to advertise load balancer IPs to"
   type = string
