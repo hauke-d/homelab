@@ -10,15 +10,16 @@ spec:
     automated: {}
   project: cluster-core
   sources:
-  - repoURL: git@github.com:hauke-d/homelab
+  - repoURL: git@github.com:hauke-d/homelab.git
     targetRevision: main
+    path: kubernetes/cluster-core/helm-values
     ref: values
   - repoURL: https://argoproj.github.io/argo-helm
     chart: argo-cd
     targetRevision: 5.36.0
     helm:
       valueFiles:
-      - $values/kubernetes/cluster-core/helm-values/argocd.yaml
+      - $values/argocd.yaml
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
