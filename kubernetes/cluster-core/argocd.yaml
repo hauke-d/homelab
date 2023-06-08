@@ -15,10 +15,9 @@ spec:
     targetRevision: 5.36.0
     helm:
       valueFiles:
-      - $values/argocd.yaml
+      - $values/kubernetes/cluster-core/helm-values/argocd.yaml
   - repoURL: git@github.com:hauke-d/homelab.git
     targetRevision: main
-    path: kubernetes/cluster-core/helm-values
     ref: values
   destination:
     namespace: argocd
