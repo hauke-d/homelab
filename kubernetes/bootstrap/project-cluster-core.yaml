@@ -7,11 +7,12 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   description: Homelab cluster components
-  sourceRepos:
-  - 'git@github.com:hauke-d/homelab.git'
   destinations:
   - namespace: '*'
     server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
+  sourceRepos:
+  - git@github.com:hauke-d/homelab.git
+  - https://argoproj.github.io/argo-helm
