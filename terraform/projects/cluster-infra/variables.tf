@@ -36,23 +36,36 @@ variable "controlplane_virtual_ip" {
   default = "10.8.24.100"
 }
 
+variable "cilium_version" {
+  default = "1.14.0-snapshot.3"
+}
+
+variable "argocd_version" {
+  default = "5.36.0"
+}
+
+variable "github_token" {
+  type = string
+  sensitive = true
+}
+
 variable "load_balancer_address_pool" {
   default = "10.8.25.0/24"
 }
 
 variable "controlplane_nodes" {
   default = {
-    "10.8.24.101" = {
+    "10.8.24.104" = {
       host        = "pm0"
-      template_id = 103
+      template_id = 1450
     },
     "10.8.24.102" = {
       host        = "pm1"
-      template_id = 101
+      template_id = 1451
     },
     "10.8.24.103" = {
       host        = "pm2"
-      template_id = 102
+      template_id = 1452
     },
   }
 }

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  syncOptions:
+    automated: {}
+  project: cluster-core
+  source:
+    path: kubernetes/bootstrap
+    repoURL: git@github.com:hauke-d/homelab.git
+    targetRevision: main
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc

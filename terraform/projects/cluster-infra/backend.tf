@@ -28,5 +28,9 @@ terraform {
       source  = "foltik/vyos"
       version = "~> 0"
     }
+    github = {
+      source = "integrations/github"
+      version = "~> 5"
+    }
   }
 }

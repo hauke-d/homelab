@@ -19,13 +19,21 @@ module "talos_config" {
   cluster_name            = var.cluster_name
   controlplane_ips        = local.controlplane_ips
   controlplane_virtual_ip = var.controlplane_virtual_ip
+  cilium_version = var.cilium_version
   depends_on              = [module.controlplane]
 }
 
 module "cilium" {
   source                     = "../../modules/cilium"
   controlplane_address       = var.controlplane_virtual_ip
+  cilium_version = var.cilium_version
   bgp_node_addresses         = keys(var.controlplane_nodes)
   bgp_gateway_address        = var.vyos_gateway
   load_balancer_address_pool = var.load_balancer_address_pool
+  depends_on = [ module.talos_config ]
+}
+
+module "argocd" {
+  source = "../../modules/argocd"
+  argocd_version = var.argocd_version
 }

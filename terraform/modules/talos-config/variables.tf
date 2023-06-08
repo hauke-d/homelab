@@ -9,3 +9,7 @@ variable "controlplane_ips" {
 variable "controlplane_virtual_ip" {
   type = string
 }
+
+variable "cilium_version" {
+  type = string
+}

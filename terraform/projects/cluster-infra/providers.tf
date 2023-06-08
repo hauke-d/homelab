@@ -30,3 +30,8 @@ provider "vyos" {
   url = "https://${var.vyos_gateway}"
   key = var.vyos_api_key
 }
+
+provider "github" {
+  token = var.github_token
+  owner = "hauke-d"
+}
