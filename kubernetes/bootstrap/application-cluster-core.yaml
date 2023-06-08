@@ -8,7 +8,7 @@ metadata:
 spec:
   syncPolicy:
     automated: {}
-  project: cluster-core
+  project: default
   source:
     path: kubernetes/cluster-core
     repoURL: git@github.com:hauke-d/homelab.git
