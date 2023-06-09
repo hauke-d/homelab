@@ -20,7 +20,7 @@ resource "github_repository_deploy_key" "argocd" {
 }
 
 resource "helm_release" "argocd" {
-  name = "argo-cd"
+  name = "argocd"
   chart = "argo-cd"
   namespace = "argocd"
   repository = "https://argoproj.github.io/argo-helm"
@@ -53,7 +53,9 @@ resource "helm_release" "argocd" {
   }
 }
 
-resource "kubectl_manifest" "default_app" {
-  yaml_body = file("${path.module}/default-app.yaml")
+resource "helm_release" "argocd_root_application" {
+  name       = "argocd-root-application"
+  chart = "${path.module}/charts/argocd-root-application"
+  namespace  = "argocd"
   depends_on = [ helm_release.argocd ]
 }

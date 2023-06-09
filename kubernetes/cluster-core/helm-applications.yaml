@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-core-helm
+spec:
+  generators:
+  - git:
+      repoURL: git@github.com:hauke-d/homelab.git
+      revision: main
+      files:
+      - path: "kubernetes/cluster-core/helm/**/config.json"
+  template:
+    metadata:
+      name: '{{path[3]}}'
+    spec:
+      project: cluster-core
+      source:
+        repoURL: {{repoURL}}
+        targetRevision: {{version}}
+        chart: {{chart}}
+      destination:
+        server: '{{namespace}}'
+        namespace: guestbook

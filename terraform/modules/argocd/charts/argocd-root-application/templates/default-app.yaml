@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.applicationName }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  syncPolicy:
+    automated: {}
+  project: {{ .Values.project }}
+  source:
+    path: {{ .Values.childApplications.path }}
+    repoURL: {{ .Values.childApplications.repository }}
+    targetRevision: {{ .Values.childApplications.gitRef }}
+  destination:
+    server: https://kubernetes.default.svc

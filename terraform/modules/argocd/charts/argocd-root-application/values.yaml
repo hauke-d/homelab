@@ -1,0 +1,7 @@
+project: default
+applicationName: root
+
+childApplications:
+  repository: git@github.com:hauke-d/homelab.git
+  path: kubernetes/bootstrap
+  gitRef: main
