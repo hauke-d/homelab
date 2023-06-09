@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: cluster-core-helm
+  namespace: argocd
 spec:
   generators:
   - git:
@@ -12,12 +13,13 @@ spec:
   template:
     metadata:
       name: '{{path[3]}}'
+      namespace: argocd
     spec:
       project: cluster-core
       source:
-        repoURL: {{repoURL}}
-        targetRevision: {{version}}
-        chart: {{chart}}
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{version}}'
+        chart: '{{chart}}'
       destination:
         server: '{{namespace}}'
         namespace: guestbook
