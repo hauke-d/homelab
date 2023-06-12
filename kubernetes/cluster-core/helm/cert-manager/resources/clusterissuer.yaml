@@ -5,6 +5,8 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-private-key
   solvers:
   - selector:
       dnsZones:
@@ -12,5 +14,5 @@ spec:
     dns01:
       cloudflare:
         apiTokenSecretRef:
-          name: cloudflare-apikey-secret
+          secretName: cloudflare-apikey-secret
           key: apikey
