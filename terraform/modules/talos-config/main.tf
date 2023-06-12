@@ -25,6 +25,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
   config_patches = [
     templatefile("${path.module}/config.yaml", {
       hostname = replace(each.value, ".", "-")
+      node_ip = each.value
       controlplane_virtual_ip = var.controlplane_virtual_ip
     }),
   ]
