@@ -1,6 +1,6 @@
 {
     "repoURL": "https://kubernetes-sigs.github.io/metrics-server",
     "chart": "metrics-server",
-    "version": "0.6.3",
+    "version": "3.10.0",
     "namespace": "kube-system"
 }
