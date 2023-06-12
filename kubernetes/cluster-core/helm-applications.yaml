@@ -16,8 +16,9 @@ spec:
       namespace: argocd
     spec:
       project: cluster-core
-      syncOptions:
-      - CreateNamespace=true
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
       sources:
       - repoURL: '{{repoURL}}'
         targetRevision: '{{version}}'
