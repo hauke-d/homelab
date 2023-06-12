@@ -1,0 +1,6 @@
+{
+    "repoURL": "https://charts.jetstack.io",
+    "chart": "cert-manager",
+    "version": "1.12.1",
+    "namespace": "cert-manager"
+}

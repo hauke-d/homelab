@@ -17,7 +17,7 @@ terraform {
       version = "~> 0"
     }
     kubectl = {
-      source = "gavinbunney/kubectl"
+      source  = "gavinbunney/kubectl"
       version = "~> 1"
     }
     helm = {
@@ -29,7 +29,7 @@ terraform {
       version = "~> 0"
     }
     github = {
-      source = "integrations/github"
+      source  = "integrations/github"
       version = "~> 5"
     }
   }

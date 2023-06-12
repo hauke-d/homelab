@@ -45,7 +45,7 @@ variable "argocd_version" {
 }
 
 variable "github_token" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -58,14 +58,20 @@ variable "controlplane_nodes" {
     "10.8.24.104" = {
       host        = "pm0"
       template_id = 1450
+      cpu         = 4
+      memory      = 6144
     },
     "10.8.24.102" = {
       host        = "pm1"
       template_id = 1451
+      cpu         = 4
+      memory      = 6144
     },
     "10.8.24.103" = {
       host        = "pm2"
       template_id = 1452
+      cpu         = 4
+      memory      = 6144
     },
   }
 }

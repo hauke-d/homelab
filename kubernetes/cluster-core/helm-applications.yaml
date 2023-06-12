@@ -16,6 +16,8 @@ spec:
       namespace: argocd
     spec:
       project: cluster-core
+      syncOptions:
+      - CreateNamespace=true
       sources:
       - repoURL: '{{repoURL}}'
         targetRevision: '{{version}}'
@@ -25,6 +27,7 @@ spec:
             - '$values/kubernetes/cluster-core/helm/{{path[3]}}/values.yaml'
       - ref: values
         repoURL: 'git@github.com:hauke-d/homelab.git'
+        path: kubernetes/cluster-core/helm/{{path[3]}}/resources
         targetRevision: main
       destination:
         namespace: '{{namespace}}'
