@@ -6,8 +6,11 @@ spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
   solvers:
-  - dns01:
-    cloudflare:
-      apiTokenSecretRef:
-        name: cloudflare-apikey-secret
-        key: apikey
+  - selector:
+      dnsZones:
+      - hauke.dk
+    dns01:
+      cloudflare:
+        apiTokenSecretRef:
+          name: cloudflare-apikey-secret
+          key: apikey
