@@ -1,3 +1,16 @@
 configs:
   params:
     server.insecure: true
+
+server:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/issuer: letsencrypt
+    ingressClassName: cilium
+    hosts:
+    - argocd.lab.hauke.dk
+    tls:
+    - hosts:
+      - argocd.lab.hauke.dk
+      secretName: argocd-ingress-tls
