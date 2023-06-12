@@ -32,6 +32,7 @@ spec:
         path: kubernetes/cluster-core/helm/{{path[3]}}
         targetRevision: main
         directory:
+          recurse: true
           include: resources/*
       destination:
         namespace: '{{namespace}}'
