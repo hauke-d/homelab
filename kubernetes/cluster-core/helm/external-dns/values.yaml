@@ -1,0 +1,17 @@
+provider: cloudflare
+
+txtOwnerId: external-dns
+txtSuffix: vh793du6w4ck # Random string to make the entries hard to find
+
+domainFilters:
+- hauke.dk
+
+extraArgs:
+- --cloudflare-dns-records-per-page=1000
+
+env:
+- name: CF_API_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: cloudflare-apikey-secret
+      key: apikey
